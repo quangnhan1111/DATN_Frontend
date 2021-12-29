@@ -62,10 +62,10 @@ export default {
             "June",
             "July",
             "August",
-              "September",
-              "October",
-              "November",
-              "December"
+            "September",
+            "October",
+            "November",
+            "December"
           ],
           datasets: [
             {

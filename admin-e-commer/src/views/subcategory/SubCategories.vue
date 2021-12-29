@@ -54,6 +54,7 @@
         </tbody>
       </table>
       <Paginate
+          v-if="listSubCategory.length > 0"
           :pagination=paginate
           :totalPages="Math.ceil(paginate.total/paginate.per_page)"
           :total="paginate.total"
@@ -70,6 +71,7 @@
 import axios from "axios";
 import {toast} from "bulma-toast";
 import Paginate from "../../components/paginate/Paginate";
+
 export default {
   name: 'SubCategories',
   components: { Paginate },
@@ -154,13 +156,12 @@ export default {
         //   this.listCategory = response.data.data.data;
         // }).catch((error) =>{ console.log(error)
         // });
-        const newSubCategoryList = Object.values(this.listSubCategory).filter((subcate) => {
+        this.searchResults = Object.values(this.listSubCategory).filter((subcate) => {
           return Object.values(subcate)
               .join(" ")
               .toLowerCase()
               .includes(this.searchValue.toLowerCase());
         });
-        this.searchResults = newSubCategoryList;
       } else {
         this.searchResults = this.listSubCategory;
       }

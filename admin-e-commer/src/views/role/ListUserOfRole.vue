@@ -30,18 +30,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in searchValue.length < 1 ? listUserOfRole : searchResults" :key="item.id">
+        <tr v-for="item in searchValue.length < 1 ? data_to_pass : searchResults" :key="item.id">
           <td>{{item.id}}</td>
-          <td>{{item.user.username}}</td>
-          <td>{{item.user.first_name + " " + item.user.last_name }}</td>
-          <td>{{item.user.email}}</td>
+          <td>{{item.username}}</td>
+          <td>{{item.full_name }}</td>
+          <td>{{item.email}}</td>
           <td>{{item.address}}</td>
           <td>{{item.phone_number}}</td>
           <td>{{item.created_at}}</td>
           <td>{{item.updated_at}}</td>
           <td v-if="$route.params.id != 1">
             <label class="switch" >
-              <input type="checkbox" :checked="item.status" @change="ToggleStatus(item.user.id, item.id)">
+              <input type="checkbox" :checked="item.status" @change="ToggleStatus(item.user_id, item.id)">
               <span class="slider round"></span>
             </label>
           </td>

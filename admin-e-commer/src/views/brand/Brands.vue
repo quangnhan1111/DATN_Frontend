@@ -54,6 +54,7 @@
         </tbody>
       </table>
       <Paginate
+          v-if="listBrand.length > 0"
           :pagination=paginate
           :totalPages="Math.ceil(paginate.total/paginate.per_page)"
           :total="paginate.total"
@@ -75,9 +76,9 @@ export default {
   data () {
     return {
       auth : localStorage.getItem('roleNames') === 'admin' ? 1 : 0,
-      show: false,
-      navbarText: false,
-      navbarDropdown: false,
+      // show: false,
+      // navbarText: false,
+      // navbarDropdown: false,
 
       searchValue:"",
       searchResults:[],
@@ -91,6 +92,7 @@ export default {
         per_page:1,
         total: 1,
       },
+      //flag thay doi ( khi delete) thi se paginate lai data
       flag: 0
     }
   },

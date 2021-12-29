@@ -60,6 +60,7 @@
         </tbody>
       </table>
       <Paginate
+          v-if="listPost.length > 0"
           :pagination=paginate
           :totalPages="Math.ceil(paginate.total/paginate.per_page)"
           :total="paginate.total"
