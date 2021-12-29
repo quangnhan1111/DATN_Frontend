@@ -110,9 +110,8 @@ export default {
       // checklogin();
       let id = this.$route.params.id
       await axios.get('/product/' +id , this.token).then((response)=> {
-        let temp = response.data.data[0]
-        // console.log(response.data.data[0])
-        this.dataoutput = temp
+        console.log(response.data)
+        this.dataoutput = response.data.data[0]
         let sizes=''
         let colors=''
         for (let item of response.data.data){

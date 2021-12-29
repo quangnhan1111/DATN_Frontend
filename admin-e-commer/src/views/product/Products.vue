@@ -85,9 +85,9 @@ export default {
   data () {
     return {
       auth : localStorage.getItem('roleNames') === 'admin' ? 1 : 0,
-      show: false,
-      navbarText: false,
-      navbarDropdown: false,
+      // show: false,
+      // navbarText: false,
+      // navbarDropdown: false,
 
       searchValue:"",
       searchResults:[],
