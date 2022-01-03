@@ -20,7 +20,7 @@
         <tr>
           <th>id</th>
           <th>username</th>
-          <th>full_name</th>
+<!--          <th>full_name</th>-->
           <th>email</th>
           <th>address</th>
           <th>phone_number</th>
@@ -33,12 +33,12 @@
         <tr v-for="item in searchValue.length < 1 ? data_to_pass : searchResults" :key="item.id">
           <td>{{item.id}}</td>
           <td>{{item.username}}</td>
-          <td>{{item.full_name }}</td>
+<!--          <td>{{item.full_name }}</td>-->
           <td>{{item.email}}</td>
           <td>{{item.address}}</td>
           <td>{{item.phone_number}}</td>
-          <td>{{item.created_at}}</td>
-          <td>{{item.updated_at}}</td>
+          <td>{{validateDateTime(Date.parse(item.created_at))}}</td>
+          <td>{{validateDateTime(Date.parse(item.updated_at))}}</td>
           <td v-if="$route.params.id != 1">
             <label class="switch" >
               <input type="checkbox" :checked="item.status" @change="ToggleStatus(item.user_id, item.id)">
@@ -49,15 +49,15 @@
         </tr>
         </tbody>
       </table>
-<!--      <Paginate-->
-<!--          v-if="listUserOfRole.length > 0"-->
-<!--          :pagination=paginate-->
-<!--          :totalPages="Math.ceil(paginate.total/paginate.per_page)"-->
-<!--          :total="paginate.total"-->
-<!--          :per-page="paginate.per_page"-->
-<!--          :currentPage="paginate.current_page"-->
-<!--          @pagechanged="onPageChange"-->
-<!--      />-->
+      <Paginate
+          v-if="listUserOfRole.length > 0"
+          :pagination=paginate
+          :totalPages="Math.ceil(paginate.total/paginate.per_page)"
+          :total="paginate.total"
+          :per-page="paginate.per_page"
+          :currentPage="paginate.current_page"
+          @pagechanged="onPageChange"
+      />
       <button type="button" name="example-email" class="btn btn-danger" @click="back">Back </button>
     </div>
   </div>
@@ -67,9 +67,11 @@
 <script>
 import axios from "axios";
 import {toast} from "bulma-toast";
+import {validateTime} from "../../utils/checkValidation"
+import Paginate from "../../components/paginate/Paginate";
 export default {
   name: 'ListUserOfRole',
-  components: {  },
+  components: { Paginate },
   data () {
     return {
       show: false,
@@ -79,15 +81,29 @@ export default {
       searchValue:"",
       searchResults:[],
       listUserOfRole: [],
-      data_to_pass: []
+      data_to_pass: [],
+      paginate: {
+        current_page:1,
+        first_page_url:"",
+        last_page:1,
+        last_page_url:"",
+        per_page:1,
+        total: 1,
+      },
     }
   },
   created() {
     this.getData()
   },
   methods: {
+    validateDateTime(date){
+      return validateTime(date)
+    },
     back() {
       this.$router.push('/roles')
+    },
+    onPageChange(page){
+      this.paginate.current_page = page
     },
     async ToggleStatus(user_id, id){
       let token = {
@@ -134,7 +150,11 @@ export default {
       axios
           .get('/role/get-users-by-role/' + id, token)
           .then(response => {
-            console.log(response.data.data)
+            console.log(response.data)
+            this.paginate.current_page = response.data.current_page
+            this.paginate.last_page = response.data.last_page
+            this.paginate.per_page = response.data.per_page
+            this.paginate.total = response.data.total
             this.listUserOfRole = response.data.data
             for (let user of this.listUserOfRole){
               this.data_to_pass.push({

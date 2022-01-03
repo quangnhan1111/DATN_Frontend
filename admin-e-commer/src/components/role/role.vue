@@ -22,19 +22,22 @@
           </td>
         </template>
         <template #action="{item}">
-          <td>
+          <td v-if="item['id'] == 1 ">
+
+          </td>
+          <td v-else>
             <router-link :to="`/user-of-role/${item.id}`"
                          tag="button"
                          class="btn btn-success"
                          style="{font-size: 10px;}"
             >View user
             </router-link>
-<!--            <button-->
-<!--                class="btn btn-danger"-->
-<!--                :id = "item.id"-->
-<!--                @click="$emit('deleteEmployee', item.id)"-->
-<!--            >Delete-->
-<!--            </button>-->
+            <!--            <button-->
+            <!--                class="btn btn-danger"-->
+            <!--                :id = "item.id"-->
+            <!--                @click="$emit('deleteEmployee', item.id)"-->
+            <!--            >Delete-->
+            <!--            </button>-->
           </td>
         </template>
       </CDataTable>

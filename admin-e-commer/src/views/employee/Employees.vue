@@ -22,7 +22,7 @@
         <tr>
           <th>id</th>
           <th>username</th>
-          <th>full_name</th>
+<!--          <th>full_name</th>-->
           <th>email</th>
           <th>address</th>
           <th>phone_number</th>
@@ -37,12 +37,12 @@
         <tr v-for="item in searchValue.length < 1 ? listEmployee : searchResults" :key="item.id">
           <td>{{item.id}}</td>
           <td>{{item.username}}</td>
-          <td>{{item.full_name}}</td>
+<!--          <td>{{item.full_name}}</td>-->
           <td>{{item.email}}</td>
           <td>{{item.address}}</td>
           <td>{{item.phone_number}}</td>
-          <td>{{item.created_at}}</td>
-          <td>{{item.updated_at}}</td>
+          <td>{{validateDateTime(Date.parse(item.created_at))}}</td>
+          <td>{{validateDateTime(Date.parse(item.updated_at))}}</td>
           <td>
             <label class="switch">
               <input type="checkbox" :checked="item.status" @change="ToggleStatus(item.id)">
@@ -79,6 +79,7 @@
 import axios from "axios";
 import {toast} from "bulma-toast";
 import Paginate from "../../components/paginate/Paginate";
+import {validateTime} from "../../utils/checkValidation";
 // import {toast} from "bulma-toast";
 export default {
   name: 'Employees',
@@ -109,6 +110,9 @@ export default {
     this.getData()
   },
   methods: {
+    validateDateTime(date){
+      return validateTime(date)
+    },
     onPageChange(page){
       this.paginate.current_page = page
     },
