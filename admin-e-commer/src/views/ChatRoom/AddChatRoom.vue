@@ -59,10 +59,6 @@ export default {
     this.getData()
   },
   methods: {
-    getSelectValue(value, text) {
-      console.log(value);
-      console.log(text);
-    },
     async getData () {
       let token = {
         headers: {'Authorization': `token ${localStorage.getItem("token")}`}
@@ -99,6 +95,7 @@ export default {
     async handleAdd() {
       this.checkValid()
       if(this.message.length<=0){
+        // let participants = [this.chat_room.user_id, localStorage.getItem('id')]
         let data = {
           "name": this.chat_room.name,
           "user_id": this.chat_room.user_id

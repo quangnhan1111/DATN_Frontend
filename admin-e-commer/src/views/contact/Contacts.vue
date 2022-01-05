@@ -89,7 +89,7 @@
                 <div class="right-msg-container" v-if="message.username == username">
                   <div class="s-message">
                     <div class="s-msg">{{ message.message }}</div>
-                    <div class="s-time">{{message.created_at}}</div>
+                    <div class="s-time">{{validateDateTime(Date.parse(message.created_at))}}-{{new Date().getFullYear()}}</div>
                   </div>
                   <div class="s-tail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 13" preserveAspectRatio="none" width="8" height="13"><path opacity=".5" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path><path fill="#dcf8c6ff" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path></svg></div>
                 </div>
@@ -98,7 +98,7 @@
                   <div class="r-message" >
                     <div class="r-user"><a href="#">{{ message.username }}</a></div>
                     <div class="r-msg">{{ message.message }}</div>
-                    <div class="r-time">{{message.created_at}}</div>
+                    <div class="r-time">{{validateDateTime(Date.parse(message.created_at))}}-{{new Date().getFullYear()}}</div>
                   </div>
                 </div>
               </div>
@@ -190,6 +190,7 @@
 import Pusher from 'pusher-js';
 import axios from "axios";
 import {toast} from "bulma-toast";
+import {validateTime} from "../../utils/checkValidation";
 export default {
   name: 'Contacts',
   components:{
@@ -226,6 +227,9 @@ export default {
     });
   },
   methods: {
+    validateDateTime(date){
+      return validateTime(date)
+    },
     change_room(id_room){
       this.chat_room = id_room
       this.get_history(id_room)
@@ -256,7 +260,7 @@ export default {
           .then(response => {
             console.log(response)
             toast({
-              message: 'Add Image successfully',
+              message: 'Sent Message successfully',
               type: 'is-success',
               dismissible: true,
               pauseOnHover: true,
@@ -278,7 +282,7 @@ export default {
       axios
           .get('/room', token)
           .then(response => {
-            // console.log(response.data.data)
+            console.log(response.data.data)
             this.all = response.data
             this.listGroup = this.all.data
             this.chat_room = this.listGroup[0].groups_participated.id

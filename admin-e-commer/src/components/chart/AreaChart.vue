@@ -22,12 +22,15 @@ export default {
     let token = {
       headers: {'Authorization': `token ${localStorage.getItem("token")}`}
     }
-    let data = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
+    let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]
 
     await axios.get('saleFigure/get-sale-figure-by-month', token)
         .then(response => {
+          console.log(response.data)
           response.data.data[0].forEach(function(item) {
-            data[parseInt(item.Month) -1] += item.total_sale
+            if(item.Year == String(new Date().getFullYear())){
+              data[parseInt(item.Month) -1] += item.total_sale
+            }
           })
           this.sale = data.slice();
         })
