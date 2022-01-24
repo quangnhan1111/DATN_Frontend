@@ -44,3 +44,13 @@ Tham Khảo: https://codesandbox.io/s/react-filter-forked-knod0?fontsize=14&hide
 
 -Xem List Blog:  axios.get('/post-list?page='+this.paginate.current_page)
 -Xem chi tiêt Blog:   axios.get('post/' + idPost)
+
+
+
+
+1)Trang admin(admin + staff):
+
+
+
+
+
