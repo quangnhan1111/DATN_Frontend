@@ -33,7 +33,7 @@ Tham Khảo: https://codesandbox.io/s/react-filter-forked-knod0?fontsize=14&hide
 
 -Add to cart:Xem code Product.
 -Update Cart: Xem code Cart.vue
--Remove Cart: Xem code Cart.
+-Remove Cart: Xem code Cart.vue 
 ==> Xem trong Vuex !!!
 
 -Login và Register: Xem code !!
@@ -45,12 +45,83 @@ Tham Khảo: https://codesandbox.io/s/react-filter-forked-knod0?fontsize=14&hide
 -Xem List Blog:  axios.get('/post-list?page='+this.paginate.current_page)
 -Xem chi tiêt Blog:   axios.get('post/' + idPost)
 
+-Complete Order 
++By Cash
++By Paypal: (load script)
+==> Xem trong Checkout.vue 
+===>Tham Khảo: 
+https://www.youtube.com/watch?v=8rMfW4wO-vU&t=995s
+https://www.youtube.com/watch?v=33pnWTslX2E&t=1s
 
 
+2)Trang admin(admin + staff):
+-Login: checkValid ==> submit data 
 
-1)Trang admin(admin + staff):
+-MyAccount
+-EditAccount: checkValid ==> submit data 
+-ChangePassword: checkValid ==> submit data  
 
+-Brand(Tương tự với các chức năng CRUD khác như cate, subcate, customer, invoice , .... ) :
++Get list:  axios.get('/brands?page='+this.paginate.current_page, token)
++Toggle status:    await axios.get('brand-activation/' + id, token).then((response) => 
++Delete Brand:   await axios.delete('brands/?id=' + id,token)
++Add: Component add ==> check data ==> submit
++Edit: Component edit ==> get data để hiển thị. check data edit ==> submit data edit.
++searchHandler: 
 
+<tr v-for="item in searchValue.length < 1 ? listBrand : searchResults" :key="item.id">
+......      
 
+searchHandler(){
+      if (this.searchValue !== "") {
+        const newBrandList = Object.values(this.listBrand).filter((brand) => {
+          return Object.values(brand)
+              .join(" ")
+              .toLowerCase()
+              .includes(this.searchValue.toLowerCase());
+        });
+        this.searchResults = newBrandList;
+      } else {
+        this.searchResults = this.listBrand;
+      }
+    },
 
+      
+ +Thay đổi Paginate khi current_page hoặc delete brand( đặt biến flag hàm delete để kiểm tra sự thay đổi ):
+      
+ onPageChange(page){
+    this.paginate.current_page = page
+ },
+      
+  watch: {
+    paginate: {
+      async handler(){
+        console.log(this.paginate.current_page)
+        console.log(Math.ceil(this.paginate.total/this.paginate.per_page))
+        await this.getData();
+      },
+      deep: true
+    },
+    async flag() {
+      await this.getData()
+    }
+  }
 
+      
+  <Paginate
+          v-if="listBrand.length > 0"
+          :pagination=paginate
+          :totalPages="Math.ceil(paginate.total/paginate.per_page)"
+          :total="paginate.total"
+          :per-page="paginate.per_page"
+          :currentPage="paginate.current_page"
+          @pagechanged="onPageChange"
+      />
+      
+      
+ -Chức năng Paginate: Xem component Paginate.vue 
+
+      
+ -Chat realtime: Xem component Contacts.vue 
+      
+ -Product: Làm theo kiểu product_link nên xem code phần add và edit Product trong Component AddProduct.vue và EditProduct.vue  
