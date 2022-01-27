@@ -67,7 +67,7 @@ https://www.youtube.com/watch?v=33pnWTslX2E&t=1s
 +Delete Brand:   await axios.delete('brands/?id=' + id,token)
 +Add: Component add ==> check data ==> submit
 +Edit: Component edit ==> get data để hiển thị. check data edit ==> submit data edit.
-+searchHandler: 
++searchHandler: ( đối với việc filter ở dưới FE )
 
 <tr v-for="item in searchValue.length < 1 ? listBrand : searchResults" :key="item.id">
 ......      
@@ -85,8 +85,23 @@ searchHandler(){
         this.searchResults = this.listBrand;
       }
     },
-
+==> Ngoài ra có thể gọi API search:
       
+      searchHandler(){
+      console.log(this.token)
+      axios.get('categories?search='+this.searchValue.toLowerCase()+'&page='+this.paginate.current_page, this.token)
+          .then((response)=> {
+            console.log(response.data.data)
+            this.all = response.data
+            this.listCategory = this.all.data
+            this.paginate.current_page = this.all.current_page
+            this.paginate.last_page = this.all.last_page
+            this.paginate.per_page = this.all.per_page
+            this.paginate.total = this.all.total
+          }).catch((error) =>{ console.log(error)
+      });
+      }
+
  +Thay đổi Paginate khi current_page hoặc delete brand( đặt biến flag hàm delete để kiểm tra sự thay đổi ):
       
  onPageChange(page){
